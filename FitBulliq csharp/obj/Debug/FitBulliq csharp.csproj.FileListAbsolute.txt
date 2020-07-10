@@ -1,0 +1,10 @@
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Debug\FitBulliq csharp.exe.config
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Debug\FitBulliq csharp.exe
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Debug\FitBulliq csharp.pdb
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.csprojAssemblyReference.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq_csharp.Form1.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq_csharp.Properties.Resources.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.csproj.GenerateResource.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.csproj.CoreCompileInputs.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.exe
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.pdb
