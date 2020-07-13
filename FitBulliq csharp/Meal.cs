@@ -14,6 +14,23 @@ namespace FitBulliq_csharp
 
         public List<Product> listProduct = new List<Product>();
 
+        //CTORS
+        public Meal()
+        {
+
+        }
+        public Meal(string name, DateTime date)
+        {
+            this.Name = name;
+            this.Date = date;
+        }
+        public Meal(uint id, string name, DateTime date)
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Date = date;
+        }
+
         //GETTERS BY MEAL (from listProduct)
         public uint GetKcalMeal()
         {

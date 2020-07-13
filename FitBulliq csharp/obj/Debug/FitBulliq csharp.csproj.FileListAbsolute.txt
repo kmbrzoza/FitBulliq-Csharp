@@ -8,3 +8,5 @@ K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.csproj
 K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.csproj.CoreCompileInputs.cache
 K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.exe
 K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Debug\FitBulliq csharp.pdb
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Debug\Database.mdf
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Debug\Database_log.ldf

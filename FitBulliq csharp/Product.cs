@@ -30,14 +30,9 @@ namespace FitBulliq_csharp
             Fats = fats;
             Carbohydrates = carbohydrates;
         }
-        public Product(uint id, string name, uint kcal, double protein, double fats, double carbohydrates)
+        public Product(uint id, string name, uint kcal, double protein, double fats, double carbohydrates) : this(name, kcal, protein, fats, carbohydrates)
         {
             Id = id;
-            Name = name;
-            Kcal = kcal;
-            Protein = protein;
-            Fats = fats;
-            Carbohydrates = carbohydrates;
         }
         public Product(uint id, string name, uint kcal, double protein, double fats, double carbohydrates, uint grams) : this(id, name, kcal, protein, fats, carbohydrates)
         {
@@ -68,7 +63,7 @@ namespace FitBulliq_csharp
         //OVERRIDE
         public override string ToString()
         {
-            return (Name + " | " + Grams + " (g) | " + Kcal + " (g) | " + Protein + " (g) | " + Fats + " (g) | " + Carbohydrates + " (g)");
+            return ($"{Name} | {Grams} (g) | {Kcal} (g) | {Protein} (g) | {Fats} (g) | {Carbohydrates} (g)");
         }
         public override bool Equals(object obj)
         {
@@ -76,6 +71,10 @@ namespace FitBulliq_csharp
                 return true;
             else
                 return false;
+        }
+        public override int GetHashCode() //just for no warning
+        {
+            return base.GetHashCode();
         }
         ///////////
 
