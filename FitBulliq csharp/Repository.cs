@@ -70,7 +70,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd odczytu posiłków z bazy danych! \nRepo - GetMealsByDate()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd odczytu posiłków z bazy danych! \nRepo - GetMealsByDate()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd odczytu posiłków z bazy danych! \nRepo - GetMealsByDate()");
             }
 
             ConnectionClose();
@@ -120,13 +121,14 @@ namespace FitBulliq_csharp
                     }
                     else
                     {
-                        throw new System.Exception("Błąd w odczycie informacji o danym produkcie!");
+                        throw new Exception("Błąd w odczycie informacji o danym produkcie! Repo - GetProductsToMeal()");
                     }
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()");
             }
 
             ConnectionClose();
@@ -152,7 +154,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBład dodawania posiłku! \nRepo - AddMeal()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBład dodawania posiłku! \nRepo - AddMeal()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Bład dodawania posiłku! \nRepo - AddMeal()");
             }
 
             ConnectionClose();
@@ -179,7 +182,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania posiłku! \nRepo - RemoveMeal() - DB MealsProducts");
             }
 
             try
@@ -188,7 +192,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB Meals", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB Meals", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania posiłku! \nRepo - RemoveMeal() - DB Meals");
             }
 
             ConnectionClose();
@@ -217,7 +222,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd dodawania produktu! \nRepo - AddProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd dodawania produktu! \nRepo - AddProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd dodawania produktu! \nRepo - AddProduct()");
             }
 
             ConnectionClose();
@@ -240,7 +246,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd odczytu produktów po nazwie! \nRepo - GetProductsByText()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd odczytu produktów po nazwie! \nRepo - GetProductsByText()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd odczytu produktów po nazwie! \nRepo - GetProductsByText()");
             }
 
             ConnectionClose();
@@ -268,7 +275,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania produktu! \nRepo - RemoveProduct() - DB MealsProducts");
             }
 
             try
@@ -277,7 +285,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB Products", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB Products", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania produktu! \nRepo - RemoveProduct() - DB Products");
             }
 
             ConnectionClose();
@@ -305,7 +314,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd edytowania produktu! \nRepo - EditProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd edytowania produktu! \nRepo - EditProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd edytowania produktu! \nRepo - EditProduct()");
             }
 
 
@@ -334,7 +344,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd dodawania produktu do posiłku! \nRepo - AddMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd dodawania produktu do posiłku! \nRepo - AddMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd dodawania produktu do posiłku! \nRepo - AddMealProduct()");
             }
 
             ConnectionClose();
@@ -357,7 +368,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()");
             }
 
             ConnectionClose();
@@ -382,7 +394,8 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new Exception("Błąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()");
             }
 
             ConnectionClose();
