@@ -21,6 +21,8 @@ namespace FitBulliq_csharp
         {
             //setting connectionString
             connectionString = ConfigurationManager.ConnectionStrings["FitBulliq_csharp.Properties.Settings.DatabaseConnectionString"].ConnectionString;
+            //Adding this because it approve to use 2 DataReader in one method
+            connectionString = connectionString + "; MultipleActiveResultSets=True"; 
         }
 
         //These 2 function are using to open and close connection
@@ -35,8 +37,7 @@ namespace FitBulliq_csharp
             connection.Close();
         }
 
-        //ZMIENIĆ WYJĄTKI W METODACH
-
+        
         #region Meals
         //MEALS
 
@@ -49,7 +50,7 @@ namespace FitBulliq_csharp
 
             string query = "SELECT Id, Name, Date FROM Meals WHERE Date=@Date";
             SqlCommand command = new SqlCommand(query, connection);
-            string dateToString = $"{date.Day}.{date.Month}.{date.Year}";
+            string dateToString = $"{date.Year}-{date.Month}-{date.Day}";
             command.Parameters.AddWithValue("@Date", dateToString);
 
             SqlDataReader reader;
@@ -60,7 +61,7 @@ namespace FitBulliq_csharp
                 reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    uint id = uint.Parse(reader.GetValue(0).ToString());
+                    int id = int.Parse(reader.GetValue(0).ToString());
                     string name = reader.GetValue(1).ToString();
                     //3rd parametr is date, because is the same date 
                     //which we take from DB
@@ -68,7 +69,7 @@ namespace FitBulliq_csharp
                     listMeals.Add(meal);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd odczytu posiłków z bazy danych! \nRepo - GetMealsByDate()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd odczytu posiłków z bazy danych! \nRepo - GetMealsByDate()");
@@ -86,7 +87,7 @@ namespace FitBulliq_csharp
             List<Product> listProduct = new List<Product>();
 
             //this command need for getting Id and Grams For one product in meal
-            string queryForIdProduct = "SELECT mp.IdProduct, mp.Grams FROM MealsProducts mp INNER JOIN Products p on mp.idProduct = p.id INNER JOIN meals m on mp.idMeal = m.id WHERE m.id = @Id";
+            string queryForIdProduct = "SELECT mp.IdProduct, mp.Grams FROM MealsProducts mp INNER JOIN Products p on mp.IdProduct = p.Id INNER JOIN meals m on mp.IdMeal = m.Id WHERE m.Id = @Id";
             SqlCommand commandForIdProduct = new SqlCommand(queryForIdProduct, connection);
             commandForIdProduct.Parameters.AddWithValue("@Id", meal.Id);
 
@@ -102,8 +103,8 @@ namespace FitBulliq_csharp
                 readerForIdProduct = commandForIdProduct.ExecuteReader();
                 while (readerForIdProduct.Read())
                 {
-                    uint id = uint.Parse(readerForIdProduct.GetValue(0).ToString());
-                    uint grams = uint.Parse(readerForIdProduct.GetValue(1).ToString());
+                    int id = int.Parse(readerForIdProduct.GetValue(0).ToString());
+                    int grams = int.Parse(readerForIdProduct.GetValue(1).ToString());
 
                     commandForProductSpecs.Parameters.AddWithValue("@Id", id);
                     readerForProductSpecs = commandForProductSpecs.ExecuteReader();
@@ -112,10 +113,10 @@ namespace FitBulliq_csharp
                     {
                         //Getting specs to variables, id and grams got before
                         string name = readerForProductSpecs.GetValue(0).ToString();
-                        uint kcal = uint.Parse(readerForProductSpecs.GetValue(1).ToString());
-                        double protein = double.Parse(readerForProductSpecs.GetValue(3).ToString());
-                        double fats = double.Parse(readerForProductSpecs.GetValue(4).ToString());
-                        double carbohydrates = double.Parse(readerForProductSpecs.GetValue(5).ToString());
+                        int kcal = int.Parse(readerForProductSpecs.GetValue(1).ToString());
+                        double protein = double.Parse(readerForProductSpecs.GetValue(2).ToString());
+                        double fats = double.Parse(readerForProductSpecs.GetValue(3).ToString());
+                        double carbohydrates = double.Parse(readerForProductSpecs.GetValue(4).ToString());
                         
                         listProduct.Add(new Product(id, name, kcal, protein, fats, carbohydrates, grams));
                     }
@@ -127,38 +128,41 @@ namespace FitBulliq_csharp
             }
             catch (Exception e)
             {
-                //MessageBox.Show($"{e.Message} \nBłąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw new Exception("Błąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()");
+                MessageBox.Show($"{e.Message} \nBłąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //throw new Exception("Błąd odczytu produktów z bazy danych! \nRepo - GetProductsToMeal()");
             }
 
             ConnectionClose();
             return listProduct;
         }
 
-        //Adding meal
-        public void AddMeal(Meal meal)
+        //Adding meal, it returns ID of new Meal
+        public int AddMeal(Meal meal)
         {
             ConnectionOpen();
 
             string date = $"{meal.Date.Year}-{meal.Date.Month}-{meal.Date.Day}";
 
             //INSERT INTO Meals (Name, Date) VALUES('Kolacja', '2020-04-06')
-            string query = "INSERT INTO Meals (Name, Date) VALUES (@Name, @Date)";
+            string query = "INSERT INTO Meals (Name, Date) OUTPUT INSERTED.ID VALUES (@Name, @Date)";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@Name", meal.Name);
             command.Parameters.AddWithValue("@Date", date);
 
+            int id; //this Id is returned by sql and it allows to give id to object
+
             try
             {
-                command.ExecuteNonQuery();
+                id = int.Parse(command.ExecuteScalar().ToString());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBład dodawania posiłku! \nRepo - AddMeal()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Bład dodawania posiłku! \nRepo - AddMeal()");
             }
-
+            
             ConnectionClose();
+            return id;
         }
 
         //Removing meal
@@ -180,7 +184,7 @@ namespace FitBulliq_csharp
             {
                 commandDeleteMealsProducts.ExecuteNonQuery();//1
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania posiłku! \nRepo - RemoveMeal() - DB MealsProducts");
@@ -190,7 +194,7 @@ namespace FitBulliq_csharp
             {
                 commandDeleteMeals.ExecuteNonQuery();//2
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania posiłku! \nRepo - RemoveMeal() - DB Meals", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania posiłku! \nRepo - RemoveMeal() - DB Meals");
@@ -209,7 +213,7 @@ namespace FitBulliq_csharp
             ConnectionOpen();
 
             string query = "INSERT INTO Products (Name, Kcal, Protein, Fats, Carbohydrates) " +
-                "VALUES(@NameProduct, @KcalProduct, @ProteinProduct, @FatsProduct, @CarbohydratesProduct)";
+                "VALUES (@NameProduct, @KcalProduct, @ProteinProduct, @FatsProduct, @CarbohydratesProduct)";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@NameProduct", product.Name);
             command.Parameters.AddWithValue("@KcalProduct", product.Kcal);
@@ -220,7 +224,7 @@ namespace FitBulliq_csharp
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd dodawania produktu! \nRepo - AddProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd dodawania produktu! \nRepo - AddProduct()");
@@ -236,15 +240,35 @@ namespace FitBulliq_csharp
 
             List<Product> listProducts = new List<Product>();
 
-            string query = "SELECT * FROM Products WHERE NAME LIKE '%@NameProduct%'";
+            //NOT WORK :(
+            //string query = "SELECT Id, Name, Kcal, Protein, Fats, Carbohydrates FROM Products WHERE NAME LIKE '%@NameProduct%'";
+
+            string query = $"SELECT Id, Name, Kcal, Protein, Fats, Carbohydrates FROM Products WHERE NAME LIKE '%{text}%'";
             SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@NameProduct", text);
+
+            //command.Parameters.AddWithValue("@NameProduct", text);
+
+            SqlDataReader reader;
 
             try
             {
-                command.ExecuteNonQuery();
+                reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = int.Parse(reader.GetValue(0).ToString());
+                    string name = reader.GetValue(1).ToString();
+                    int kcal = int.Parse(reader.GetValue(2).ToString());
+                    double protein = double.Parse(reader.GetValue(3).ToString());
+                    double fats = double.Parse(reader.GetValue(4).ToString());
+                    double carbohydrates = double.Parse(reader.GetValue(5).ToString());
+
+                    Product product = new Product(id, name, kcal, protein, fats, carbohydrates);
+
+                    listProducts.Add(product);
+
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd odczytu produktów po nazwie! \nRepo - GetProductsByText()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd odczytu produktów po nazwie! \nRepo - GetProductsByText()");
@@ -273,7 +297,7 @@ namespace FitBulliq_csharp
             {
                 commandDeleteFromMealsProducts.ExecuteNonQuery(); //1
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB MealsProducts", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania produktu! \nRepo - RemoveProduct() - DB MealsProducts");
@@ -283,7 +307,7 @@ namespace FitBulliq_csharp
             {
                 commandDeleteFromProducts.ExecuteNonQuery(); //2
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu! \nRepo - RemoveProduct() - DB Products", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania produktu! \nRepo - RemoveProduct() - DB Products");
@@ -301,7 +325,7 @@ namespace FitBulliq_csharp
                 "Carbohydrates=@CarbohydratesProductE WHERE Id=@IdProduct";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@NameProductE", productEdited.Name);
-            command.Parameters.AddWithValue("@KcalProducEt", productEdited.Kcal);
+            command.Parameters.AddWithValue("@KcalProductE", productEdited.Kcal);
             command.Parameters.AddWithValue("@ProteinProductE", productEdited.Protein);
             command.Parameters.AddWithValue("@FatsProductE", productEdited.Fats);
             command.Parameters.AddWithValue("@CarbohydratesProductE", productEdited.Carbohydrates);
@@ -312,7 +336,7 @@ namespace FitBulliq_csharp
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd edytowania produktu! \nRepo - EditProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd edytowania produktu! \nRepo - EditProduct()");
@@ -328,21 +352,21 @@ namespace FitBulliq_csharp
         //MEALSPRODUCTS
 
         //Adding product to meal
-        public void AddMealProduct(Meal meal, Product product, uint grams)
+        public void AddMealProduct(Meal meal, Product product)
         {
             ConnectionOpen();
 
-            string query = "INSERT INTO MealsProducts (IdMeal, IdProduct, Grams) VALUES (@IdMeal, @IdProduct, @Grams)";
+            string query = "INSERT INTO MealsProducts (IdMeal, IdProduct, Grams) VALUES (@IdMeal, @IdProduct, @GramsProduct)";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@IdMeal", meal.Id);
             command.Parameters.AddWithValue("@IdProduct", product.Id);
-            command.Parameters.AddWithValue("@Grams", grams);
+            command.Parameters.AddWithValue("@GramsProduct", product.Grams);
 
             try
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd dodawania produktu do posiłku! \nRepo - AddMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd dodawania produktu do posiłku! \nRepo - AddMealProduct()");
@@ -366,7 +390,7 @@ namespace FitBulliq_csharp
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()");
@@ -376,7 +400,7 @@ namespace FitBulliq_csharp
         }
 
         //Editing product in meal
-        public void EditMealProduct(Meal meal, Product productToEdit, uint gramsToEdit)
+        public void EditMealProduct(Meal meal, Product productToEdit, int gramsToEdit)
         {
             ConnectionOpen();
 
@@ -392,7 +416,7 @@ namespace FitBulliq_csharp
             {
                 command.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //MessageBox.Show($"{e.Message} \nBłąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw new Exception("Błąd usuwania produktu z posiłku! \nRepo - RemoveMealProduct()");

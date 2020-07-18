@@ -1,0 +1,17 @@
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Release\Database.mdf
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Release\Database_log.ldf
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Release\FitBulliq csharp.exe.config
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Release\FitBulliq csharp.exe
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\bin\Release\FitBulliq csharp.pdb
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq csharp.csprojAssemblyReference.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.AddMealForm.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.AddOwnProductForm.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.AddProductForm.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.EditMealProductForm.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.EditProductForm.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.Form1.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq_csharp.Properties.Resources.resources
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq csharp.csproj.GenerateResource.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq csharp.csproj.CoreCompileInputs.cache
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq csharp.exe
+K:\STUDIA\C#\FitBulliq csharp\FitBulliq csharp\obj\Release\FitBulliq csharp.pdb

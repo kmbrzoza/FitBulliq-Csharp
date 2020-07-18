@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FitBulliq_csharp
 {
-    class Meal
+    public class Meal
     {
-        public uint Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
 
@@ -24,7 +24,7 @@ namespace FitBulliq_csharp
             this.Name = name;
             this.Date = date;
         }
-        public Meal(uint id, string name, DateTime date)
+        public Meal(int id, string name, DateTime date)
         {
             this.Id = id;
             this.Name = name;
@@ -32,9 +32,9 @@ namespace FitBulliq_csharp
         }
 
         //GETTERS BY MEAL (from listProduct)
-        public uint GetKcalMeal()
+        public int GetKcalMeal()
         {
-            uint sum = 0;
+            int sum = 0;
             for (int i = 0; i < listProduct.Count; i++)
             {
                 sum = sum + listProduct[i].GetKcalByGrams();
@@ -69,6 +69,15 @@ namespace FitBulliq_csharp
             return sum;
         }
         //////////
-        
+
+
+        //OVERRIDE
+        public override bool Equals(object obj)
+        {
+            if (Name == ((Meal)obj).Name && Id == ((Meal)obj).Id)
+                return true;
+            else
+                return false;
+        }
     }
 }

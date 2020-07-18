@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace FitBulliq_csharp
 {
-    class Product
+    public class Product
     {
-        public uint Id{ get; set; }
+        public int Id{ get; set; }
         public string Name { get; set; }
-        public uint Kcal { get; set; }
+        public int Kcal { get; set; }
         public double Protein { get; set; }
         public double Fats { get; set; }
         public double Carbohydrates { get; set; }
-        public uint Grams { get; set; }
+        public int Grams { get; set; }
 
 
         //CTORS
@@ -22,7 +22,7 @@ namespace FitBulliq_csharp
         {
 
         }
-        public Product(string name, uint kcal, double protein, double fats, double carbohydrates)
+        public Product(string name, int kcal, double protein, double fats, double carbohydrates)
         {
             Name = name;
             Kcal = kcal;
@@ -30,21 +30,21 @@ namespace FitBulliq_csharp
             Fats = fats;
             Carbohydrates = carbohydrates;
         }
-        public Product(uint id, string name, uint kcal, double protein, double fats, double carbohydrates) : this(name, kcal, protein, fats, carbohydrates)
+        public Product(int id, string name, int kcal, double protein, double fats, double carbohydrates) : this(name, kcal, protein, fats, carbohydrates)
         {
             Id = id;
         }
-        public Product(uint id, string name, uint kcal, double protein, double fats, double carbohydrates, uint grams) : this(id, name, kcal, protein, fats, carbohydrates)
+        public Product(int id, string name, int kcal, double protein, double fats, double carbohydrates, int grams) : this(id, name, kcal, protein, fats, carbohydrates)
         {
             Grams = grams;
         }
         //////////
         
         //GETTERS BY GRAMS
-        public uint GetKcalByGrams()
+        public int GetKcalByGrams()
         {
             double temp = Kcal * (Grams * 0.01);
-            return (uint)temp;
+            return (int)temp;
         }
         public double GetProteinByGrams()
         {
@@ -60,14 +60,21 @@ namespace FitBulliq_csharp
         }
         ///////////////
 
+
+
+        public string ToStringWithoutGrams()
+        {
+            return ($"{Name} | {Kcal} (kcal) | {Protein} (g) | {Fats} (g) | {Carbohydrates} (g)");
+        }
+
         //OVERRIDE
         public override string ToString()
         {
-            return ($"{Name} | {Grams} (g) | {Kcal} (g) | {Protein} (g) | {Fats} (g) | {Carbohydrates} (g)");
+            return ($"{Name} | {Grams} (g) | {Kcal * (Grams * 0.01)} (kcal) | {Protein * (Grams * 0.01)} (g) | {Fats * (Grams * 0.01)} (g) | {Carbohydrates * (Grams * 0.01)} (g)");
         }
         public override bool Equals(object obj)
         {
-            if (Name == ((Product)obj).Name && Grams == ((Product)obj).Grams)
+            if (Name == ((Product)obj).Name && Grams == ((Product)obj).Grams && Id == ((Product)obj).Id)
                 return true;
             else
                 return false;
